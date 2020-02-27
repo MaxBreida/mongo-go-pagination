@@ -2,6 +2,7 @@ package mongopagination
 
 import (
 	"context"
+
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -12,12 +13,12 @@ import (
 // filter data with page, limit, sort key
 // and sort value
 type PagingQuery struct {
-	collection *mongo.Collection
-	filter     interface{}
-	sortField  string
-	sortValue  int
-	limit      int64
-	page       int64
+	Collection *mongo.Collection
+	Filter     interface{}
+	SortField  string
+	SortValue  int
+	Limit      int64
+	Page       int64
 }
 
 // PaginatedData struct holds data and

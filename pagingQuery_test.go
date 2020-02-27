@@ -2,13 +2,14 @@ package mongopagination
 
 import (
 	"context"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
 	"log"
 	"sync"
 	"testing"
 	"time"
+
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 type TodoTest struct {
@@ -75,12 +76,12 @@ func TestPagingQuery_Find(t *testing.T) {
 	var limit int64 = 10
 	var page int64 = 1
 	paging := PagingQuery{
-		collection: db.Collection(DatabaseCollection),
-		filter:     filter,
-		limit:      limit,
-		page:       page,
-		sortField:  "createdAt",
-		sortValue:  -1,
+		Collection: db.Collection(DatabaseCollection),
+		Filter:     filter,
+		Limit:      limit,
+		Page:       page,
+		SortField:  "createdAt",
+		SortValue:  -1,
 	}
 	paginatedData, err := paging.Find()
 	if err != nil {
