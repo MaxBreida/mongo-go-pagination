@@ -75,13 +75,15 @@ func TestPagingQuery_Find(t *testing.T) {
 	filter := bson.M{}
 	var limit int64 = 10
 	var page int64 = 1
+	sortFieldVal := "createdAt"
+	sortValueVal := -1
 	paging := PagingQuery{
 		Collection: db.Collection(DatabaseCollection),
 		Filter:     filter,
 		Limit:      limit,
 		Page:       page,
-		SortField:  "createdAt",
-		SortValue:  -1,
+		SortField:  &sortFieldVal,
+		SortValue:  &sortValueVal,
 	}
 	paginatedData, err := paging.Find()
 	if err != nil {
@@ -104,7 +106,6 @@ func TestPagingQuery_Find(t *testing.T) {
 	if err != nil {
 		t.Errorf("Error while cleanup. Error: %s", err.Error())
 	}
-
 }
 
 func NewConnection() (a *mongo.Database, b *mongo.Client) {
