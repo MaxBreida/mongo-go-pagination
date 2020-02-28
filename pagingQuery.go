@@ -52,8 +52,10 @@ func (paging *PagingQuery) Find() (paginatedData *PaginatedData, err error) {
 		}
 	}
 	paginator := Paging(paging)
+	paginationInfo := *paginator.PaginationData()
+	paginationInfo.RecordsOnPage = int64(len(docs))
 	result := PaginatedData{
-		Pagination: *paginator.PaginationData(),
+		Pagination: paginationInfo,
 		Data:       docs,
 	}
 	return &result, nil

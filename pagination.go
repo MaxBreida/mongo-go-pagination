@@ -18,24 +18,25 @@ type Paginator struct {
 
 // PaginationData struct for returning pagination stat
 type PaginationData struct {
-	Total     int64 `json:"total"`
-	Page      int64 `json:"page"`
-	PerPage   int64 `json:"perPage"`
-	Prev      int64 `json:"prev"`
-	Next      int64 `json:"next"`
-	TotalPage int64 `json:"totalPage"`
+	Total         int64 `json:"total"`
+	Page          int64 `json:"page"`
+	PerPage       int64 `json:"perPage"`
+	Prev          int64 `json:"prev"`
+	Next          int64 `json:"next"`
+	TotalPages    int64 `json:"totalPages"`
+	RecordsOnPage int64 `json:"recordsOnPage"`
 }
 
 // PaginationData returns PaginationData struct which
 // holds information of all stats needed for pagination
 func (p *Paginator) PaginationData() *PaginationData {
 	data := PaginationData{
-		Total:     p.TotalRecord,
-		Page:      p.Page,
-		PerPage:   p.Limit,
-		Prev:      0,
-		Next:      0,
-		TotalPage: p.TotalPage,
+		Total:      p.TotalRecord,
+		Page:       p.Page,
+		PerPage:    p.Limit,
+		Prev:       0,
+		Next:       0,
+		TotalPages: p.TotalPage,
 	}
 	if p.Page != p.PrevPage && p.TotalRecord > 0 {
 		data.Prev = p.PrevPage
