@@ -7,24 +7,24 @@ import (
 
 // Paginator struct for holding pagination info
 type Paginator struct {
-	TotalRecord int64 `json:"total_record"`
-	TotalPage   int64 `json:"total_page"`
-	Offset      int64 `json:"offset"`
-	Limit       int64 `json:"limit"`
-	Page        int64 `json:"page"`
-	PrevPage    int64 `json:"prev_page"`
-	NextPage    int64 `json:"next_page"`
+	TotalRecord int `json:"total_record"`
+	TotalPage   int `json:"total_page"`
+	Offset      int `json:"offset"`
+	Limit       int `json:"limit"`
+	Page        int `json:"page"`
+	PrevPage    int `json:"prev_page"`
+	NextPage    int `json:"next_page"`
 }
 
 // PaginationData struct for returning pagination stat
 type PaginationData struct {
-	Total         int64 `json:"total"`
-	Page          int64 `json:"page"`
-	PerPage       int64 `json:"perPage"`
-	Prev          int64 `json:"prev"`
-	Next          int64 `json:"next"`
-	TotalPages    int64 `json:"totalPages"`
-	RecordsOnPage int64 `json:"recordsOnPage"`
+	Total         int `json:"total"`
+	Page          int `json:"page"`
+	PerPage       int `json:"perPage"`
+	Prev          int `json:"prev"`
+	Next          int `json:"next"`
+	TotalPages    int `json:"totalPages"`
+	RecordsOnPage int `json:"recordsOnPage"`
 }
 
 // PaginationData returns PaginationData struct which
@@ -58,21 +58,19 @@ func Paging(p *PagingQuery) *Paginator {
 		p.Limit = 10
 	}
 	var paginator Paginator
-	var count int64
-	var offset int64
+	var offset int
 	total, _ := p.Collection.CountDocuments(context.Background(), p.Filter)
-	count = int64(total)
 
 	if p.Page == 1 {
 		offset = 0
 	} else {
 		offset = (p.Page - 1) * p.Limit
 	}
-	paginator.TotalRecord = count
+	paginator.TotalRecord = int(total)
 	paginator.Page = p.Page
 	paginator.Offset = offset
 	paginator.Limit = p.Limit
-	paginator.TotalPage = int64(math.Ceil(float64(count) / float64(p.Limit)))
+	paginator.TotalPage = int(math.Ceil(float64(total) / float64(p.Limit)))
 	if p.Page > 1 {
 		paginator.PrevPage = p.Page - 1
 	} else {

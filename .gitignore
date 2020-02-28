@@ -82,3 +82,5 @@ tmp/*
 config/config.ini
 main
 gin-bin
+
+.vscode/*

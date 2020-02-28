@@ -73,8 +73,8 @@ func TestPagingQuery_Find(t *testing.T) {
 		t.Errorf("Data insert error. Error: %s", err.Error())
 	}
 	filter := bson.M{}
-	var limit int64 = 10
-	var page int64 = 1
+	var limit int = 10
+	var page int = 1
 	sortFieldVal := "createdAt"
 	sortValueVal := -1
 	paging := PagingQuery{

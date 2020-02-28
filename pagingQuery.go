@@ -17,8 +17,8 @@ type PagingQuery struct {
 	Filter     interface{}
 	SortField  *string
 	SortValue  *int
-	Limit      int64
-	Page       int64
+	Limit      int
+	Page       int
 }
 
 // PaginatedData struct holds data and
@@ -32,9 +32,10 @@ type PaginatedData struct {
 // error if any error occurs during document query
 func (paging *PagingQuery) Find() (paginatedData *PaginatedData, err error) {
 	skip := getSkip(paging.Page, paging.Limit)
+	limit := int64(paging.Limit)
 	opt := &options.FindOptions{
 		Skip:  &skip,
-		Limit: &paging.Limit,
+		Limit: &limit,
 	}
 	if paging.SortField != nil && paging.SortValue != nil {
 		opt.Sort = bson.D{{*paging.SortField, *paging.SortValue}}
@@ -53,7 +54,7 @@ func (paging *PagingQuery) Find() (paginatedData *PaginatedData, err error) {
 	}
 	paginator := Paging(paging)
 	paginationInfo := *paginator.PaginationData()
-	paginationInfo.RecordsOnPage = int64(len(docs))
+	paginationInfo.RecordsOnPage = len(docs)
 	result := PaginatedData{
 		Pagination: paginationInfo,
 		Data:       docs,
@@ -62,11 +63,11 @@ func (paging *PagingQuery) Find() (paginatedData *PaginatedData, err error) {
 }
 
 // getSkip return calculated skip value for query
-func getSkip(page, limit int64) (skip int64) {
+func getSkip(page, limit int) (skip int64) {
 	if page > 0 {
-		skip = (page - 1) * limit
+		skip = int64((page - 1) * limit)
 	} else {
-		skip = page
+		skip = int64(page)
 	}
 	return
 }
