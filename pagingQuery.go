@@ -15,6 +15,7 @@ import (
 type PagingQuery struct {
 	Collection *mongo.Collection
 	Filter     interface{}
+	Projection *bson.D
 	SortField  *string
 	SortValue  *int
 	Limit      int
@@ -39,6 +40,9 @@ func (paging *PagingQuery) Find() (paginatedData *PaginatedData, err error) {
 	}
 	if paging.SortField != nil && paging.SortValue != nil {
 		opt.Sort = bson.D{{*paging.SortField, *paging.SortValue}}
+	}
+	if paging.Projection != nil {
+		opt.Projection = *paging.Projection
 	}
 	cursor, err := paging.Collection.Find(context.Background(), paging.Filter, opt)
 	if err != nil {
