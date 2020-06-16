@@ -14,7 +14,7 @@ import (
 // and sort value
 type PagingQuery struct {
 	Collection *mongo.Collection
-	Filter     interface{}
+	Filter     bson.M
 	Projection *bson.D
 	SortField  *string
 	SortValue  *int

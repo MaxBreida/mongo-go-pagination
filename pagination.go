@@ -59,7 +59,13 @@ func Paging(p *PagingQuery) *Paginator {
 	}
 	var paginator Paginator
 	var offset int
-	total, _ := p.Collection.CountDocuments(context.Background(), p.Filter)
+	var total int64
+
+	if len(p.Filter) == 0 {
+		total, _ = p.Collection.EstimatedDocumentCount(context.Background())
+	} else {
+		total, _ = p.Collection.CountDocuments(context.Background(), p.Filter)
+	}
 
 	if p.Page == 1 {
 		offset = 0
